@@ -123,6 +123,29 @@ function Heap(compareFunc) {
 }
 
 /**
+ *  Leetcode 253. Meeting Rooms II
+ */
+/**
+ * @param {Interval[]} intervals
+ * @return {number}
+ */
+const minMeetingRooms = (intervals) => {
+  if (intervals === undefined || intervals.length === 0) return 0;
+  
+  intervals.sort((a, b) => a.start - b.start);
+  let minHeap = new Heap();
+  minHeap.push(intervals[0].end);
+
+  for (let i = 1; i < intervals.length; i += 1) {
+    // pop prevInterval.end if non-overlapping (prevInterval.end < intervals[i].start)
+    if (minHeap.peek() <= intervals[i].start) minHeap.pop();
+    minHeap.push(intervals[i].end);
+  }
+
+  return minHeap.size();
+};
+
+/**
  * Graph Dijkstra - Single Source All Destination Shortest Path
  */
 /**
