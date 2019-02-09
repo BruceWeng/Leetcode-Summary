@@ -66,7 +66,7 @@ const DFS_Stack = (graph, target) => {
  * Board Search
  * Template
  * 1. Declare function Grid(i, j) return `${i},${j}` as visited map key
- * 2. Iterate eah grid
+ * 2. Iterate each grid
  * 3. Declare search(i, j, moreInfo) function as DFS function
  * 4. Handle edge cases
  * 5. visited.set(Grid(i, j), true) if needed
