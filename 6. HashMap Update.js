@@ -143,39 +143,16 @@
    */
 
 // 4. With Other Data Structure
-  // 4.a Stack
-  /**
-   * Leetcode 316. Remove Duplicate Letters
-   */
-  // 4.b Two Pointers
-  /**
-   * Leetcode 246. Strobogrammatic Number
-   * Leetcode 299. Bulls and Cows
-   */
-  // 4.c Recursion
-  /**
-   * Leetcode 247. Strobogrammatic Number II
-   */
-  // 4.d Substring
+  // 4.a Substring
   /**
    * Leetcode 187. Repeated DNA Sequences
    * Leetcode 294. Flip Game II
    * Leetcode 336. Palindrome Pairs
    */
-  // 4.e Set
+  // 4.b Set
   /**
    * Leetcode 266. Palindrome Permutation
    * Leetcode 409. Longest Palindrome
    * Leetcode 771. Jewels and Stones
    * Leetcode 357. Count Numbers with Unique Digits
-   */
-  // 4.f DP Memoization
-  /**
-   * HashMap & Substring:
-   *   Leetcode 87. Scramble String
-   *   Leetcode 241. Different Ways to Add Parentheses
-   * HashMap & HashSet & Substring:
-   *   Leetcode 140. Word Break II
-   * HashMap & Tree:
-   *   Leetcode 337. House Robber III
    */
