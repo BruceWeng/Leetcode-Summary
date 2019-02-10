@@ -2,7 +2,7 @@
  * Graph Structure
  * graph = []
  * 1. index: node
- * 2. list of adjNodes
+ * 2. set of adjNodes
  * 3. graph[i] is allowed to be empty
  * 
  * Note: 
