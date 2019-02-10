@@ -10,7 +10,7 @@
  * Graph Structure
  * graph = []
  * 1. index: node
- * 2. list of adjNodes
+ * 2. set of adjNodes
  * 3. graph[i] is allowed to be empty
  * 
  * Note: 
@@ -40,12 +40,11 @@ const BFS = (graph, target) => {
     // iterate the nodes which are already in the queue
     let size = queue.length;
     for (let i = 0; i < size; i += 1) {
-      let curr = queue[0];
+      let curr = queue.shift();
       if (curr === target) return step;
       for (let next of graph[curr]) {
         queue.push(next);
       }
-      queue.shift();
     }
   }
   return -1; // there is no path from root to target
@@ -70,14 +69,13 @@ const BFS_Visited = (graph, target) => {
     // iterate the nodes which are already in the queue
     let size = queue.length;
     for (let i = 0 ; i < size; i += 1) {
-      let curr = queue[0];
+      let curr = queue.shift();
       if (curr === target) return step;
       for (let next of graph[curr]) {
         if (!visited.has(next)) {
-          queue.push(next);
           visited.add(next);
+          queue.push(next);
         }
-        queue.shift();
       }
     }
   }
