@@ -52,7 +52,7 @@ const binarySearch2 = (nums, target) => {
 
   // Post Processing
   // End condition: start === end
-  if (start !== nums.length && nums[left] === target) return nums[left];
+  if (start !== nums.length && nums[start] === target) return nums[start];
   return -1;
 };
 
