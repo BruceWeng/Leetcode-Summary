@@ -5,10 +5,10 @@
  *   this.left = null;
  *   this.right = null;
  * }
- * 
+ *
  * 1. node.val must >= any values in left subtree
  * 2. node.val must <= any values in right subtree
- * 
+ *
  * Basic Operation:
  * 1. Search
  * 1.a Recursion
@@ -58,7 +58,7 @@ const insertIntoBST = (root, val) => {
  * Helper function for finding successor
  * in BST, successor of root is the leftmost child in the root's right subtree
  */
-const findSuccessor = (root) => {
+const findSuccessor = root => {
   let curr = root.right;
   while (curr !== null && curr.left !== null) curr = curr.left;
 
@@ -158,7 +158,7 @@ class KthLargest {
     let m = root.right !== null ? root.right.count : 0;
 
     // root is the m+1 largest node in the BST
-    if (k === m+1) return root.val;
+    if (k === m + 1) return root.val;
 
     // find kth largest node in the right subtree
     if (k <= m) return this.searchKth(root.right, k);
@@ -169,4 +169,5 @@ class KthLargest {
 
 /**
  * Leetcode 449. Serialize and Deserialize BST
+ * Leetcode 315. Count of Smaller Numbers After Self
  */

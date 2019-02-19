@@ -7,12 +7,12 @@
  *   this.left = null;
  *   this.right = null;
  * }
- * 
+ *
  * 1. node.start be start of range and node.end be end of range (inclusive)
  * 2. this.sum or max/min depends on what the question looking for
  * 3. this.start === this.end for all the leaves
  * 4. all the num store in leave nodes
- * 
+ *
  * Basic Operation:
  * 1. build(start, end, nums): O(n)
  * 2. update(root, index, val): O(logn), need index to find proper leaf node
@@ -34,7 +34,7 @@ const build = (start, end, nums) => {
   let mid = start + Math.trunc((end - start) / 2);
   // Topdowm process
   root.left = this.build(start, mid, nums); // end = mid (boundary inclusive)
-  root.right = this.build(mid+1, end, nums);
+  root.right = this.build(mid + 1, end, nums);
 
   // Bottomup process (curr.sum = left.sum + right.sum)
   root.sum = root.left.sum + root.right.sum;
@@ -66,9 +66,11 @@ const rangeQuery = (root, start, end) => {
   // Topdown process
   if (end <= mid) return rangeQuery(root.left, start, end);
   else if (start > mid) return rangeQuery(root.right, start, end);
-  
   // Bottomup process: rangeSum = left rangeSum(start, mid) + right rangeSum(mid+1, end)
-  else return rangeQuery(root.left, start, mid) + rangeQuery(root.right, mid+1, end);
+  else
+    return (
+      rangeQuery(root.left, start, mid) + rangeQuery(root.right, mid + 1, end)
+    );
 };
 
 /**
@@ -112,8 +114,8 @@ class NumArray {
     let mid = start + Math.trunc((end - start) / 2);
     // Topdowm process
     root.left = this.build(start, mid, nums); // end = mid (boundary inclusive)
-    root.right = this.build(mid+1, end, nums);
-  
+    root.right = this.build(mid + 1, end, nums);
+
     // Bottomup process (curr.sum = left.sum + right.sum)
     root.sum = root.left.sum + root.right.sum;
     return root;
@@ -122,18 +124,18 @@ class NumArray {
   update(i, val) {
     return this.updateNode(this.root, i, val);
   }
-  
+
   updateNode(root, i, val) {
     if (root.start === root.end && root.start === i) {
       root.sum = val;
       return;
     }
-  
+
     let mid = root.start + Math.trunc((root.end - root.start) / 2);
     // Topdown process
     if (i <= mid) this.updateNode(root.left, i, val);
     else this.updateNode(root.right, i, val);
-  
+
     // Bottomup process: Update sum for each node
     root.sum = root.left.sum + root.right.sum;
   }
@@ -150,8 +152,13 @@ class NumArray {
     // Topdown process
     if (end <= mid) return this.rangeQuery(root.left, start, end);
     else if (start > mid) return this.rangeQuery(root.right, start, end);
-    
     // Bottomup process: rangeSum = left rangeSum(start, mid) + right rangeSum(mid+1, end)
-    else return this.rangeQuery(root.left, start, mid) + this.rangeQuery(root.right, mid+1, end);
+    else
+      return (
+        this.rangeQuery(root.left, start, mid) +
+        this.rangeQuery(root.right, mid + 1, end)
+      );
   }
 }
+
+// Leetcode 315. Count of Smaller Numbers After Self
