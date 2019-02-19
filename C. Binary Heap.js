@@ -3,7 +3,7 @@
  * Heap(compareFunc) {
  *   const nums = []
  *   const compare = compareFunc || function(a, b) { return a - b }; // default min stack
- * 
+ *
  *   return {
  *     peek,
  *     push,
@@ -12,14 +12,14 @@
  *     remove
  *   }
  * }
- * 
+ *
  * Basic Operation:
  * 1. Peek root value of heap: O(1)
  * 2. Push new valud to the heap and move it to proper position(bubbleUp): O(logn)
  * 3. Pop the value based on compareFunc and heapify(sinkDown): O(logn)
  * 4. size: O(1)
  * 5. remove: looking for the target node and heapify(bubbleUp and sinkDown): O(n) + O(logn)
- * 
+ *
  * 1. Use nums to serialize binary heap
  * 2. The root stores in the 0 index
  * 3. pop and remove moves the target node to the nums[-1] and nums.pop()
@@ -30,50 +30,54 @@
  */
 function Heap(compareFunc) {
   const nums = [];
-  const compare = compareFunc || function(a, b) { return a - b };
-  
+  const compare =
+    compareFunc ||
+    function(a, b) {
+      return a - b;
+    };
+
   const peek = () => nums[0];
-  
+
   // 4.a bubbleUp last index after push
-  const push = (node) => {
+  const push = node => {
     nums.push(node);
     bubbleUp(nums.length - 1);
-  }
-  
+  };
+
   // 4.b sinkDown 0 index after pop
   const pop = () => {
     if (nums.length === 0) return null;
     let root = nums[0];
-    nums[0] = nums[nums.length-1];
+    nums[0] = nums[nums.length - 1];
     nums.pop();
     sinkDown(0);
     return root;
-  }
-  
+  };
+
   const size = () => nums.length;
-  
+
   // 4.c bubbleUp and sinkDown removeIndex after remove
-  const remove = (val) => {
+  const remove = val => {
     let removeIndex = null;
     for (let i = 0; i < nums.length; i += 1) {
       if (compare(nums[i], val) === 0) removeIndex = i;
     }
     if (removeIndex === null) return;
-    swap(nums, removeIndex, nums.length-1);
+    swap(nums, removeIndex, nums.length - 1);
     let result = nums.pop();
     if (removeIndex < nums.length) {
       bubbleUp(removeIndex);
       sinkDown(removeIndex);
     }
     return result;
-  }
-  
+  };
+
   // Helper functions
   const swap = (nums, a, b) => {
-      [ nums[a], nums[b] ] = [ nums[b], nums[a] ];
-  }
-  
-  const bubbleUp = (currIndex) => {
+    [nums[a], nums[b]] = [nums[b], nums[a]];
+  };
+
+  const bubbleUp = currIndex => {
     // swap(nums, parentIndex, currIndex) until find the proper position
     while (currIndex > 0) {
       // remember parentIndex
@@ -83,9 +87,9 @@ function Heap(compareFunc) {
       swap(nums, parentIndex, currIndex);
       currIndex = parentIndex;
     }
-  }
-  
-  const sinkDown = (currIndex) => {
+  };
+
+  const sinkDown = currIndex => {
     while (true) {
       let swapIndex = null;
       // Remember childen indecies
@@ -94,20 +98,26 @@ function Heap(compareFunc) {
 
       // let swapIndex be the most proper index
       // Evaluate left child to current index
-      if (LChildIndex < nums.length && 
-          moreProper(nums[LChildIndex], nums[currIndex])) swapIndex = LChildIndex;
-      
-          // Evaluate right child to current index and right child to left child
-      if (RChildIndex < nums.length && 
-          moreProper(nums[RChildIndex], nums[currIndex]) && 
-          moreProper(nums[RChildIndex], nums[LChildIndex])) swapIndex = RChildIndex;
+      if (
+        LChildIndex < nums.length &&
+        moreProper(nums[LChildIndex], nums[currIndex])
+      )
+        swapIndex = LChildIndex;
+
+      // Evaluate right child to current index and right child to left child
+      if (
+        RChildIndex < nums.length &&
+        moreProper(nums[RChildIndex], nums[currIndex]) &&
+        moreProper(nums[RChildIndex], nums[LChildIndex])
+      )
+        swapIndex = RChildIndex;
 
       if (swapIndex === null) break;
 
       swap(nums, currIndex, swapIndex);
       currIndex = swapIndex;
     }
-  }
+  };
 
   // evaluate if a is in proper position than b
   // currIndex always be b
@@ -119,9 +129,12 @@ function Heap(compareFunc) {
     pop,
     size,
     remove
-  }
+  };
 }
 
+/**
+ * Leetcode 295. Find Median from Data Stream
+ */
 /**
  *  Leetcode 253. Meeting Rooms II
  */
@@ -129,9 +142,9 @@ function Heap(compareFunc) {
  * @param {Interval[]} intervals
  * @return {number}
  */
-const minMeetingRooms = (intervals) => {
+const minMeetingRooms = intervals => {
   if (intervals === undefined || intervals.length === 0) return 0;
-  
+
   intervals.sort((a, b) => a.start - b.start);
   let minHeap = new Heap();
   minHeap.push(intervals[0].end);
@@ -209,22 +222,22 @@ const shortestReach = (n, edges, s) => {
   // 5. while in minHeap
   //    a. Pop out new [node, dist], if new node is visited continue
   //    b. Update visited[node], Update dists[node] = dist
-  //    c. Iterate next nodes: 
+  //    c. Iterate next nodes:
   //       if !visited[next] && dist + weight < dists[next]:
   //         push([next, dist + weight]) in minHeap as dist candidate
   // 6. Update all isolated nodes dist as -1
   // 7. Return dists
   let Inf = Number.MAX_SAFE_INTEGER;
-  let dists = new Array(n+1).fill(Inf);
+  let dists = new Array(n + 1).fill(Inf);
 
   let graph = [];
-  for (let i = 0; i < n+1; i += 1) graph.push([]);
+  for (let i = 0; i < n + 1; i += 1) graph.push([]);
   for (const [node, next, weight] of edges) {
     graph[node].push([next, weight]);
     graph[next].push([node, weight]);
   }
 
-  let visited = new Array(n+1).fill(false);
+  let visited = new Array(n + 1).fill(false);
 
   let minHeap = Heap((a, b) => a[1] - b[1]);
   minHeap.push([s, 0]);
@@ -238,12 +251,11 @@ const shortestReach = (n, edges, s) => {
 
     // Iterate next
     for (let [next, weight] of graph[node])
-      if (!visited[next] && dist + weight < dists[next]) 
+      if (!visited[next] && dist + weight < dists[next])
         minHeap.push([next, dist + weight]);
   }
 
-  for (let i = 1; i < dists.length; i += 1) 
-    if (dists[i] === Inf) dists[i] = -1;
+  for (let i = 1; i < dists.length; i += 1) if (dists[i] === Inf) dists[i] = -1;
 
   return dists;
 };
