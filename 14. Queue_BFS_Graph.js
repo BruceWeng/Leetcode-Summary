@@ -12,19 +12,22 @@
  * 1. index: node
  * 2. set of adjNodes
  * 3. graph[i] is allowed to be empty
- * 
- * Note: 
+ *
+ * Note:
  * if the input is edges[[node, adjNode]...], build the graph first.
- * 
+ *
  * Build Graph Template
- */ 
+ */
+let graph = [];
+for (let i = 0; i < nodes; i += 1) graph.push(new Set());
+
 for (let edge of edges) {
   let node = edge[0];
   let adjNode = edge[1];
   adjList[node].add(adjNode);
   adjList[adjNode].add(node);
 }
-/** 
+/**
  * BFS
  * Template1
  * Return the length of the shortest path between root and target node
@@ -68,7 +71,7 @@ const BFS_Visited = (graph, target) => {
     step += 1;
     // iterate the nodes which are already in the queue
     let size = queue.length;
-    for (let i = 0 ; i < size; i += 1) {
+    for (let i = 0; i < size; i += 1) {
       let curr = queue.shift();
       if (curr === target) return step;
       for (let next of graph[curr]) {
@@ -84,27 +87,27 @@ const BFS_Visited = (graph, target) => {
 
 /**
  * Conclusion:
- * 1. Use template 1 when: 
+ * 1. Use template 1 when:
  *   a. make sure there is no cycle (ex: Tree traversal)
  *   b. we do want to add the node to the queue multiple times
  * 2. Otherwise use template 2
  */
 
- /**
-  * BFS Questions
-  */
- /**
-  * Leetcode 286. Walls and Gates
-  * Leetcode 200. Number of Islands
-  * Leetcode 752. Open the Lock
-  * Leetcode 279. Perfect Squares
-  * Leetcode 490. The Maze
-  * Leetcode 542. 01 Matrix
-  * Leetcode 130. Surrounded Regions
-  * Leetcode 207. Course Schedule
-  * Leetcode 802. Find Eventual Safe States
-  * Leetcode 127. Word Ladder (Two-end Queue)
-  * Leetcode 785. Is Graph Bipartite?
-  * Leetcode 886. Possible Bipartition
-  * Leetcode 847. Shortest Path Visiting All Nodes
-  */
+/**
+ * BFS Questions
+ */
+/**
+ * Leetcode 286. Walls and Gates
+ * Leetcode 200. Number of Islands
+ * Leetcode 752. Open the Lock
+ * Leetcode 279. Perfect Squares
+ * Leetcode 490. The Maze
+ * Leetcode 542. 01 Matrix
+ * Leetcode 130. Surrounded Regions
+ * Leetcode 207. Course Schedule
+ * Leetcode 802. Find Eventual Safe States
+ * Leetcode 127. Word Ladder (Two-end Queue)
+ * Leetcode 785. Is Graph Bipartite?
+ * Leetcode 886. Possible Bipartition
+ * Leetcode 847. Shortest Path Visiting All Nodes
+ */
