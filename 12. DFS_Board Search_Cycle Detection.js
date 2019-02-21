@@ -11,7 +11,7 @@
  * Build Graph Template
  */
 let graph = [];
-for (let i = 0; i < edges.length; i += 1) graph.push(new Set());
+for (let i = 0; i < nodes; i += 1) graph.push(new Set());
 
 for (let edge of edges) {
   let node = edge[0];
@@ -68,10 +68,11 @@ const DFS_Stack = (graph, target) => {
 /**
  * Cycle Detection
  */
-const edges = [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 3]];
+const nodes = 8;
+const edges = [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [6, 7], [7, 6]];
 
 let graph = [];
-for (let i = 0; i < edges.length; i += 1) graph.push(new Set());
+for (let i = 0; i < nodes; i += 1) graph.push(new Set());
 
 for (let edge of edges) {
   let node = edge[0];
@@ -88,21 +89,27 @@ for (let edge of edges) {
  * @param {Set} visited
  */
 const detect = (graph, result, i, visited) => {
-  let candid = [];
+  let candid = new Set();
   let stack = [];
   stack.push(i); // push root to stack
   while (stack.length !== 0) {
     let curr = stack.pop();
-    candid.push(curr);
+    candid.add(curr);
     for (let next of graph[curr]) {
+      if (next === undefined) return; // no cycle, early return
+      if (candid.has(next)) {
+        // cycle found
+        candid = Array.from(candid);
+        candid.push(next);
+        result.push(candid);
+        break;
+      }
       if (!visited.has(next)) {
         visited.add(next);
         stack.push(next);
       }
     }
   }
-
-  result.push(candid);
 };
 
 const printCycles = graph => {
@@ -118,7 +125,7 @@ const printCycles = graph => {
   return result;
 };
 
-printCycles(graph);
+printCycles(graph); // [ [ 0, 1, 2, 0 ], [ 6, 7, 6 ] ]
 
 /**
  * Board Search
