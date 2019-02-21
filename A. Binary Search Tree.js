@@ -11,9 +11,9 @@
  *
  * Basic Operation:
  * 1. Search
- * 1.a Recursion
+ * 1.a Recursion (look for right subtree first)
  * 1.b iteration
- * 2. Insertion
+ * 2. Insertion (look for right subtree first)
  * 3. Deletion
  * Replace the target node with a proper child
  *   a. if the target node has no child, we can simply remove the node
@@ -46,7 +46,7 @@ const insertIntoBST = (root, val) => {
   if (root === null) return new TreeNode(val);
 
   // insert to the right subtree
-  if (root.val < val) root.right = insertIntoBST(root.right, val);
+  if (val > root.val) root.right = insertIntoBST(root.right, val);
   // insert to the left subtree
   else root.left = insertIntoBST(root.left, val);
 
@@ -83,9 +83,9 @@ const deleteNode = (root, key) => {
     return root;
   }
 
-  // find target in right subtree if root.val < key
-  if (root.val < key) root.right = deleteNode(root.right, key);
-  // find target in left subtree if root.val > key
+  // find target in right subtree if key > root.val
+  if (key > root.val) root.right = deleteNode(root.right, key);
+  // find target in left subtree if key < root.val
   else root.left = deleteNode(root.left, key);
 
   return root;
@@ -146,7 +146,7 @@ class KthLargest {
   insertNode(root, num) {
     if (root === null) return new Node(num, 1);
 
-    if (root.val < num) root.right = this.insertNode(root.right, num);
+    if (num > root.val) root.right = this.insertNode(root.right, num);
     else root.left = this.insertNode(root.left, num);
 
     root.count += 1;
@@ -166,8 +166,3 @@ class KthLargest {
     return this.searchKth(root.left, k - m - 1);
   }
 }
-
-/**
- * Leetcode 449. Serialize and Deserialize BST
- * Leetcode 315. Count of Smaller Numbers After Self
- */
