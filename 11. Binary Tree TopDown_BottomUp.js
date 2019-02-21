@@ -11,7 +11,7 @@
  * 1.a Pre-order
  */
 // Recursive solution
-const preorder = (root) => {
+const preorder = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   preorderHelper(root, result);
@@ -23,7 +23,7 @@ const preorderHelper = (root, result) => {
 
   result.push(root.val); // visit the root
   preorderHelper(root.left, result); // traverse left subtree
-  preorderHelper(root.right, result); // traverse right subtree 
+  preorderHelper(root.right, result); // traverse right subtree
 };
 
 // Iterative solution
@@ -31,10 +31,10 @@ function Command(action, node) {
   return {
     action, // 0: visit, 1: push to result
     node
-  }
+  };
 }
 
-const preorderIter = (root) => {
+const preorderIter = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   let stack = [new Command(0, root)];
@@ -60,7 +60,7 @@ const preorderIter = (root) => {
  * 1.b In-order
  */
 // Recursive solution
-const inorder = (root) => {
+const inorder = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   inorderHelper(root, result);
@@ -72,7 +72,7 @@ const inorderHelper = (root, result) => {
 
   inorderHelper(root.left, result); // traverse left subtree
   result.push(root.val); // visit the root
-  inorderHelper(root.right, result); // traverse right subtree 
+  inorderHelper(root.right, result); // traverse right subtree
 };
 
 // Iterative solution
@@ -80,10 +80,10 @@ function Command(action, node) {
   return {
     action, // 0: visit, 1: push to result
     node
-  }
+  };
 }
 
-const inorderIter = (root) => {
+const inorderIter = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   let stack = [new Command(0, root)];
@@ -109,7 +109,7 @@ const inorderIter = (root) => {
  * 1.c Post-order
  */
 // Recursive solution
-const postorder = (root) => {
+const postorder = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   postorderHelper(root, result);
@@ -120,7 +120,7 @@ const postorderHelper = (root, result) => {
   if (root === null) return;
 
   postorderHelper(root.left, result); // traverse left subtree
-  postorderHelper(root.right, result); // traverse right subtree 
+  postorderHelper(root.right, result); // traverse right subtree
   result.push(root.val); // visit the root
 };
 
@@ -129,10 +129,10 @@ function Command(action, node) {
   return {
     action, // 0: visit, 1: push to result
     node
-  }
+  };
 }
 
-const postorderIter = (root) => {
+const postorderIter = root => {
   if (root === undefined || root === null) return [];
   let result = [];
   let stack = [new Command(0, root)];
@@ -158,7 +158,7 @@ const postorderIter = (root) => {
  * 1.d Level-order
  */
 // Using Queue
-const levelorder = (root) => {
+const levelorder = root => {
   let result = [];
   let queue = [];
   if (root !== null) queue.push(root);
@@ -166,7 +166,8 @@ const levelorder = (root) => {
   while (queue.length !== 0) {
     let size = queue.length;
     let subAns = [];
-    for (let i = 0; i < size; i += 1) { // traverse nodes in the same level
+    for (let i = 0; i < size; i += 1) {
+      // traverse nodes in the same level
       let curr = queue.shift();
       subAns.push(curr.val); // visit the root
       if (curr.left !== null) queue.push(curr.left); // push left child to queue if it is not null
@@ -183,23 +184,23 @@ const levelorder = (root) => {
  * Leetcode 111. Minimum Depth of Binary Tree
  */
 
- // 2. Solve Tree Problems Recursively
- //  2.a Top-Down solution
- //  2.b Bottom-Up solution
- 
- /**
-  * 2.a Top-Down solution (preorder)
-  * Template
-  * 1. return specific value for null node
-  * 2. update the answer if needed                      // answer <-- params
-  * 3. left_ans = top_down(root.left, left_params)      // left_params <-- root.val, params
-  * 4. right_ans = top_down(root.right, right_params)   // right_params <-- root.val, params 
-  * 5. return the answer if needed                      // answer <-- left_ans, right_ans. 
-  */
+// 2. Solve Tree Problems Recursively
+//  2.a Top-Down solution
+//  2.b Bottom-Up solution
+
+/**
+ * 2.a Top-Down solution (preorder)
+ * Template
+ * 1. return specific value for null node
+ * 2. update the answer if needed                      // answer <-- params
+ * 3. left_ans = top_down(root.left, left_params)      // left_params <-- root.val, params
+ * 4. right_ans = top_down(root.right, right_params)   // right_params <-- root.val, params
+ * 5. return the answer if needed                      // answer <-- left_ans, right_ans.
+ */
 // Leetcode 104. Maximum Depth of Binary Tree
-const maxDepth = (root) => {
+const maxDepth = root => {
   let result = 0; // depth
-  
+
   const maxDepthHelper = (root, level) => {
     // 1. return if root is null
     // 2. if root is a lead node: answer = max(answer, depth) // update the answer if needed
@@ -212,7 +213,7 @@ const maxDepth = (root) => {
     maxDepthHelper(root.left, level + 1);
     maxDepthHelper(root.right, level + 1);
   };
-  
+
   maxDepthHelper(root, 1);
   return result;
 };
@@ -226,7 +227,7 @@ const maxDepth = (root) => {
  * 4. return answers                           // answer <-- left_ans, right_ans, root.val
  */
 // Leetcode 104. Maximum Depth of Binary Tree
-const maxDepth = (root) => {
+const maxDepth = root => {
   // 1. return 0 if root is null                 // return 0 for null node
   // 2. left_depth = maximum_depth(root.left)
   // 3. right_depth = maximum_depth(root.right)
@@ -241,12 +242,12 @@ const maxDepth = (root) => {
 /**
  * Tree Problem Conclusion:
  * 1. Can I determine some params to help the node answer of itself?
- * 2. Can I use these params and the valud of the node itself to determine 
+ * 2. Can I use these params and the valud of the node itself to determine
  *    what should be the parameters parsing to its children?
  * 3. If 1. and 2. are Yes:
  *    Top-Down solution
- * 
- * 1. For a node in a tree, if I know the answer of its children, 
+ *
+ * 1. For a node in a tree, if I know the answer of its children,
  *    can I calculate the answer of the node?
  * 2. If Yes:
  *    Bottom-Up solution
@@ -259,7 +260,7 @@ const maxDepth = (root) => {
  * Leetcode 257. Binary Tree Paths
  * Leetcode 110. Balanced Binary Tree
  * Leetcode 98. Validate Binary Search Tree
- * 
+ *
  * Leetcode 235. Lowest Common Ancestor of a Binary Search Tree
  * Leetcode 236. Lowest Common Ancestor of a Binary Tree(LCA)
  * Leetcode 298. Binary Tree Longest Consecutive Sequence
@@ -269,4 +270,5 @@ const maxDepth = (root) => {
  * Leetcode 116. Populating Next Right Pointers in Each Node
  * Leetcode 117. Populating Next Right Pointers in Each Node II
  * Leetcode 297. Serialize and Deserialize Binary Tree
+ * Leetcode 449. Serialize and Deserialize BST
  */
