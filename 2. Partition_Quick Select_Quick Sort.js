@@ -69,10 +69,10 @@
  * 4. return nums
  */
 // A.
-const partition = (nums, pivot, start, end) => {
-  let pivotValue = nums[pivot];
+const partition = (nums, start, end) => {
+  let pivotValue = nums[end];
   let partitionIndex = start;
-  for (let i = start; i < end; i += 1) {
+  for (let i = start; i <= end; i += 1) {
     if (nums[i] < pivotValue) {
       swap(nums, i, partitionIndex);
       partitionIndex += 1;
@@ -92,31 +92,29 @@ const swap = (nums, i, j) => {
 const quickSelect = (nums, k) => {
   if (k > nums.length) return;
 
-  let start = 0;
-  let end = nums.length - 1;
+  return kthSmallest(nums, k - 1, 0, nums.length - 1);
+  // pass index of nums, kth position(k-1) in
 
-  while(true) {
-    let pivot = end;
-    let partitionIndex = partition(nums, pivot, start, end);
-    if (partitionIndex === k-1) return nums[partitionIndex];
-    else if (partitionIndex > k-1) end = partitionIndex - 1;
-    else start = partitionIndex + 1;
+  function kthSmallest(nums, k, start, end) {
+    let partitionIndex = partition(nums, start, end);
+    if (partitionIndex === k) return nums[partitionIndex];
+    else if (partitionIndex < k) return kthSmallest(nums, k, partitionIndex + 1, end);
+    else return kthSmallest(nums, k, start, partitionIndex - 1);
   }
 };
 
 // C.
 const quickSort = (nums) => {
   if (nums.length < 2) return nums;
-  return sortHelper(nums, 0, nums.length-1);
+  return sortHelper(nums, 0, nums.length - 1);
 };
 
 const sortHelper = (nums, start, end) => {
   if (start < end) {
-    let pivot = end;
-    let partitionIndex = partition(nums, pivot, start, end);
+    let partitionIndex = partition(nums, start, end);
 
-    sortHelper(nums, start, partitionIndex-1);
-    sortHelper(nums, partitionIndex+1, end);
+    sortHelper(nums, start, partitionIndex - 1);
+    sortHelper(nums, partitionIndex + 1, end);
   }
 
   return nums;
@@ -124,3 +122,6 @@ const sortHelper = (nums, start, end) => {
 /**
  * Leetcode 915. Partition Array into Disjoint Intervals
  */
+
+console.log(quickSelect([8, 5, 3, 7, 2], 4)); // 7
+console.log(quickSelect([8, 5, 3, 7, 2])); // [ 2, 3, 5, 7, 8 ]
