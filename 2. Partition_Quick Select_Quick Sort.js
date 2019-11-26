@@ -125,3 +125,45 @@ const sortHelper = (nums, start, end) => {
 
 console.log(quickSelect([8, 5, 3, 7, 2], 4)); // 7
 console.log(quickSelect([8, 5, 3, 7, 2])); // [ 2, 3, 5, 7, 8 ]
+
+/**
+ * 2019/11/26 Revisit
+ */
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findKthLargest = function (nums, k) {
+  if (k > nums.length) return 0;
+  // kth largest element will be in k-1 index of the array
+  return kthLargest(k, 0, nums.length - 1);
+
+  function kthLargest(k, start, end) {
+    let pivotIndex = partition(start, end);
+
+    if (pivotIndex === k - 1) return nums[k - 1];
+    if (pivotIndex > k - 1) return kthLargest(k, start, pivotIndex - 1);
+    else return kthLargest(k, pivotIndex + 1, end);
+  }
+
+  function partition(start, end) {
+    let pivotIndex = start + Math.floor(Math.random() * (end - start + 1));
+    swap(pivotIndex, end);
+
+    let pivotValue = nums[end];
+    let locationToSwap = start;
+    for (let i = start; i <= end; i += 1) {
+      if (nums[i] > pivotValue) {
+        swap(i, locationToSwap);
+        locationToSwap += 1;
+      }
+    }
+    swap(end, locationToSwap);
+    return locationToSwap;
+  }
+
+  function swap(i, j) {
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+  }
+};
