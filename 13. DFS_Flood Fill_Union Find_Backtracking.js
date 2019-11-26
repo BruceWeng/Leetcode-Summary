@@ -18,11 +18,11 @@
  * @param {number} newColor
  * @return {number[][]}
  */
-var floodFill = function(image, sr, sc, newColor) {
+var floodFill = function (image, sr, sc, newColor) {
   if (image === undefined || sr === undefined || sc === undefined || newColor === undefined ||
-      image.length === 0 || image[0].length === 0 || sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length) 
-      return [];
-  
+    image.length === 0 || image[0].length === 0 || sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length)
+    return [];
+
   if (image[sr][sc] === newColor) return image;
 
   fill(image, sr, sc, newColor, image[sr][sc]);
@@ -41,6 +41,38 @@ const fill = (image, i, j, newColor, oldColor) => {
     fill(image, nextI, nextJ, newColor, oldColor);
   }
 };
+
+/**
+ * 2019/11/26 Revisit
+ */
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} newColor
+ * @return {number[][]}
+ */
+var floodFill = function (image, sr, sc, newColor) {
+  if (image.length === 0 || image[0].length === 0) return image;
+
+  if (image[sr][sc] === newColor) return image;
+  fill(sr, sc, image[sr][sc]);
+  return image;
+
+  function fill(i, j, oldColor) {
+    if (i < 0 || i >= image.length || j < 0 || j >= image[0].length || image[i][j] !== oldColor) return;
+
+    image[i][j] = newColor;
+
+    let dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+    for (let d of dirs) {
+      let nextI = i + d[0];
+      let nextJ = j + d[1];
+      fill(nextI, nextJ, oldColor);
+    }
+  }
+};
+
 /**
  * Leetcode 200. Number of Islands
  * Leetcode 695. Max Area of Island
@@ -70,7 +102,7 @@ const fill = (image, i, j, newColor, oldColor) => {
 function Group(n) {
   var groups = new Array(n); // 1.
   var ranks = new Array(n); // 2.
-  
+
   for (let i = 0; i < groups.length; i += 1) {
     groups[i] = i;
     ranks[i] = i;
