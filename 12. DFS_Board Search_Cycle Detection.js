@@ -16,8 +16,8 @@ for (let i = 0; i < nodes; i += 1) graph.push(new Set());
 for (let edge of edges) {
   let node = edge[0];
   let adjNode = edge[1];
-  adjList[node].add(adjNode);
-  adjList[adjNode].add(node); // undirected
+  graph[node].add(adjNode);
+  graph[adjNode].add(node); // undirected
 }
 
 /**
@@ -170,7 +170,7 @@ const exist = (board, word) => {
   return false;
 
   /**
-   * Search word[index...word.length] form board[startx][starty]
+   * Search word[index...word.length] from board[startx][starty]
    *
    * @param {Number} index
    * @param {Number} i
@@ -209,7 +209,7 @@ const exist = (board, word) => {
  * @param {number[][]} matrix
  * @return {number}
  */
-var longestIncreasingPath = function(matrix) {
+var longestIncreasingPath = function (matrix) {
   if (matrix === undefined || matrix.length === 0 || matrix[0].length === 0)
     return 0;
 
@@ -259,6 +259,71 @@ const search = (matrix, i, j, cache, prevVal) => {
   length += 1;
   cache[i][j] = length;
   return length;
+};
+
+// Leetcode 329. Longest Increasing Path in a Matrix
+// Revisit 2020/01/07
+/**
+ * DFS + Memoization 
+ * 
+ * Traverse all points in matrix, use every point as starting point to do dfs traversal. DFS function returns max increasing 
+ * path after comparing four max return distance from four directions. 
+ * 
+ * @param cache: cache[i][j] represents longest increasing path starts from point matrix[i][j]
+ * @param prev: previous value used by DFS traversal, to compare whether current value is greater than previous value
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+function Grid(i, j) {
+  return `${i},${j}`;
+}
+
+var longestIncreasingPath = function (matrix) {
+  if (matrix === undefined || matrix.length === 0 || matrix[0].length === 0)
+    return 0;
+
+  let m = matrix.length;
+  let n = matrix[0].length;
+
+  let cache = new Map();
+  for (let i = 0; i < m; i += 1) {
+    for (let j = 0; j < n; j += 1) {
+      cache.set(Grid(i, j), 0);
+    }
+  }
+
+  let result = 0;
+  for (let i = 0; i < m; i += 1) {
+    for (let j = 0; j < n; j += 1) {
+      result = Math.max(result, dfsWithCache(matrix, i, j, cache, -1));
+    }
+  }
+
+  return result;
+};
+
+function notInArea(matrix, i, j) {
+  return !(i >= 0 && i < matrix.length && j >= 0 && j < matrix[0].length);
+}
+
+const dfsWithCache = (matrix, i, j, cache, prevVal) => {
+  // handle not in area and invalid case
+  if (notInArea(matrix, i, j) || matrix[i][j] <= prevVal) return 0;
+
+  // check cache first
+  if (cache.get(Grid(i, j)) !== 0) return cache.get(Grid(i, j));
+
+  let max = 0;
+
+  let dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]; // up right down left
+  for (let d of dirs) {
+    let nextI = i + d[0];
+    let nextJ = j + d[1]; // <- Frequently typo HERE!
+    let length = 1 + dfsWithCache(matrix, nextI, nextJ, cache, matrix[i][j]);
+    max = Math.max(max, length);
+  }
+  cache.set(Grid(i, j), max);
+  return max;
 };
 
 /**
