@@ -144,6 +144,8 @@ printCycles(graph); // [ [ 0, 1, 2, 0 ], [ 6, 7, 6 ] ]
  * 9. Handle not in area edge case in independant function
  */
 // Leetcode 79. Word Search
+// Post order traversal:
+//   if (searchWord(index + 1, next_i, next_j)) return true;
 function Grid(i, j) {
   return `${i},${j}`;
 }
@@ -263,6 +265,9 @@ const search = (matrix, i, j, cache, prevVal) => {
 
 // Leetcode 329. Longest Increasing Path in a Matrix
 // Revisit 2020/01/07
+// Post order traversal:
+//   let length = 1 + dfsWithCache(matrix, nextI, nextJ, cache, matrix[i][j]);
+//   max = Math.max(max, length);
 /**
  * DFS + Memoization 
  * 
