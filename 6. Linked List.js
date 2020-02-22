@@ -92,3 +92,13 @@ const reverseList = (head) => {
  * 1. If you need to add or delete a node frequently, a linked list could be a good choice.
  * 2. If you need to access an element by index often, an array might be a better choice than a linked list.
  */
+
+/**
+ * More Practice
+ */
+/**
+ * Leetcode 141. Linked List Cycle
+ * Leetcode 142. Linked List Cycle II
+ * Leetcode 160. Intersection of Two Linked Lists
+ * Leetcode 19. Remove Nth Node From End of List
+ */
